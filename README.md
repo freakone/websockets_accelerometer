@@ -2,6 +2,9 @@
 
 This example shows how make live chart in web-browser with accelerometer readings from MPU-6050 breakout board connected to Raspberry PI.
 
+![Live chart](http://freakone.pl/content/charts.png)
+![Raspberry PI setup](http://freakone.pl/content/rpi.jpg)
+
 #Hardware requirements
 
 Connect pins from accelerometer board directly to RPi pins in order shown below.
