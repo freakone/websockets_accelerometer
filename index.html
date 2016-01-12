@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="http://www.chartjs.org/assets/Chart.min.js"></script>
+
+    <script type="text/javascript">
+        var lineChartData = {
+            labels: [],
+            datasets: [{
+                label: "X",
+                strokeColor: "rgba(170, 198, 44 ,1)",
+                pointColor: "rgba(170, 198, 44,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(170, 198, 44,1)",
+                data: []
+            }, {
+                label: "Y",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: []
+            }, {
+                label: "Z",
+                strokeColor: "rgba(170, 44, 44, 0.9)",
+                pointColor: "rgba(170, 44, 44, 0.9)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(170, 44, 44, 0.9)",
+                data: []
+            }]
+        }
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            var ctx = document.getElementById("canvas").getContext("2d");
+
+            window.myLine = new Chart(ctx).Line(lineChartData, {
+                animation: false,
+                bezierCurve: true,
+                responsive: false,
+                datasetStroke: false,
+                datasetFill: false,
+                legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+            });
+
+            document.getElementById("legend").innerHTML += window.myLine.generateLegend();
+
+            var samplesCounter = 0;
+            var maxSamples = 40;
+
+            var ws = new WebSocket("ws://192.168.0.102:8080/websocket");
+            ws.onmessage = function(evt) {
+                json = JSON.parse(evt.data);
+                window.myLine.addData([json['x'], json['y'], json['z']], samplesCounter++)
+
+                if (samplesCounter > maxSamples) {
+                    window.myLine.removeData();
+                }
+
+            };
+
+        });
+    </script>
+    <style type="text/css">
+        .line-legend li span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+        }
+
+        #legend ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        #canvas {
+            width: 95vw;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="legend"></div>
+    <canvas id="canvas"></canvas>
+</body>
+
+</html>
