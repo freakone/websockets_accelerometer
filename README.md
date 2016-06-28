@@ -18,12 +18,13 @@ RPi | MPU-6050
 
 #Software requirements
 * i2c interface enabled, for instructions go [here](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c)
-* i2c-tools - for finding accelerometer addess (optional) 
+* i2c-tools - for finding accelerometer addess (optional)
 * python, python-dev and python-smbus
 * python packages installed from pip: bottle, gevent-websocket
 
 #Installation
 * clone this repo
+* edit index.html, line 56
 * run `websockets_accelerometer.py`
 * go to `raspi_address:8080`
 

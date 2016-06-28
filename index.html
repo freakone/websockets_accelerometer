@@ -52,7 +52,8 @@
             var samplesCounter = 0;
             var maxSamples = 40;
 
-            var ws = new WebSocket("ws://192.168.0.102:8080/websocket");
+            //set RPI address here!!
+            var ws = new WebSocket("ws://192.168.1.200:8080/websocket");
             ws.onmessage = function(evt) {
                 json = JSON.parse(evt.data);
                 window.myLine.addData([json['x'], json['y'], json['z']], samplesCounter++)
